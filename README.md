@@ -60,7 +60,7 @@ En raison de l'utilisation des modules JavaScript natifs (ES6 Modules), le proje
 
 1.  **Cloner le dépôt du projet :**
     ```bash
-    git clone https://github.com](https://github.com/Christian-ITtech/CineMatch.git
+    git clone https://github.com/Christian-ITtech/CineMatch.git
     cd CineMatch
     ```
 2.  **Configuration des identifiants :**
