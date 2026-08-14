@@ -53,6 +53,9 @@ cinematch/
 *   **Adaptabilité Responsive :** Redimensionnement adaptatif de la grille de films pour maintenir un confort de lecture visuelle aussi bien sur moniteur de bureau que sur écran mobile, couplé à une réorganisation verticale des composants de la barre de navigation.
 
 ---
+## Accès direct en ligne
+L'application est déployée et accessible directement sur GitHub Pages :
+[Consulter le catalogue en ligne]([https://github.io](https://christian-ittech.github.io/CineMatch/)
 
 ## Installation et Lancement Local
 
