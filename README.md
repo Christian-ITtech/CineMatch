@@ -55,7 +55,8 @@ cinematch/
 ---
 ## Accès direct en ligne
 L'application est déployée et accessible directement sur GitHub Pages :
-[Consulter le catalogue en ligne]([https://github.io](https://christian-ittech.github.io/CineMatch/))
+[Consulter le catalogue en ligne](https://christian-ittech.github.io/CineMatch/)
+
 
 ## Installation et Lancement Local
 
