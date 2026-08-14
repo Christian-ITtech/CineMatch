@@ -1,0 +1,371 @@
+/* ==========================================================================
+   VARIABLES ET RESET
+   ========================================================================== */
+:root {
+  --bg-main: #0a0e17;       /* Fond sombre cinéma */
+  --bg-card: #131a26;       /* Fond des cartes et du header */
+  --bg-input: #1c2533;      /* Fond de la recherche */
+  --border-color: #263347;
+  
+  --text-main: #ffffff;
+  --text-muted: #8a99ad;
+  
+  /* Code couleur des notes (Niveau 2) */
+  --rating-good: #00e676;   /* Vert pour les bonnes notes > 7 */
+  --rating-average: #ff9100;/* Orange pour les notes entre 5 et 7 */
+  --rating-bad: #ff5252;    /* Rouge pour les mauvaises notes < 5 */
+  
+  --font-main: 'Poppins', sans-serif;
+  --font-sub: 'Inter', sans-serif;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-main);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   HEADER ET RECHERCHE (Flexbox)
+   ========================================================================== */
+.header {
+  background-color: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header__inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+.logo__highlight {
+  color: var(--rating-bad); /* Rouge cinéma */
+}
+
+.search-bar {
+  flex: 1;
+  max-width: 500px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.search-bar__input {
+  width: 100%;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 3rem 0.75rem 1.25rem;
+  border-radius: 30px;
+  color: var(--text-main);
+  font-family: var(--font-sub);
+  font-size: 0.95rem;
+  transition: var(--transition);
+}
+.search-bar__input:focus {
+  outline: none;
+  border-color: var(--text-muted);
+  box-shadow: 0 0 0 3px rgba(138, 153, 173, 0.1);
+}
+.search-bar__btn {
+  position: absolute;
+  right: 14px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: var(--transition);
+}
+.search-bar__btn:hover {
+  color: var(--text-main);
+}
+
+.nav-menu__link {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: var(--font-main);
+  transition: var(--transition);
+}
+.nav-menu__link:hover {
+  background-color: var(--bg-input);
+  border-color: var(--text-muted);
+}
+
+/* ==========================================================================
+   STRUCTURE PRINCIPALE ET GRILLE DE FILMS (CSS Grid)
+   ========================================================================== */
+.main-content {
+  flex: 1;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+}
+
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2.5rem 2rem;
+}
+
+/* ==========================================================================
+   LES CARTES DE FILMS (DOM Structure)
+   ========================================================================== */
+.movie-card {
+  background-color: var(--bg-card);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.movie-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--text-muted);
+}
+
+.movie-card__poster-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 150%; /* Format vertical 2:3 des affiches de cinéma */
+  background-color: var(--bg-input);
+}
+.movie-card__poster {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.movie-card__body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.movie-card__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.movie-card__date {
+  font-family: var(--font-sub);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: auto;
+}
+
+/* Classes dynamiques pour le code couleur des notes (Niveau 2) */
+.movie-card__rating {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: rgba(10, 14, 23, 0.85);
+  backdrop-filter: blur(4px);
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border: 1px solid transparent;
+}
+.movie-card__rating--good { color: var(--rating-good); border-color: rgba(0, 230, 118, 0.3); }
+.movie-card__rating--average { color: var(--rating-average); border-color: rgba(255, 145, 0, 0.3); }
+.movie-card__rating--bad { color: var(--rating-bad); border-color: rgba(255, 82, 82, 0.3); }
+
+/* Bouton favori de la carte (Niveau 3) */
+.movie-card__fav-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: rgba(10, 14, 23, 0.85);
+  backdrop-filter: blur(4px);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-main);
+  transition: var(--transition);
+}
+.movie-card__fav-btn:hover {
+  transform: scale(1.1);
+}
+.movie-card__fav-btn--active {
+  color: var(--rating-bad);
+}
+
+/* ==========================================================================
+   APP STATES (Loader & Messages)
+   ========================================================================== */
+.state {
+  text-align: center;
+  padding: 5rem 2rem;
+  max-width: 450px;
+  margin: 0 auto;
+}
+.state__title { font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 600; }
+.state--error .state__title { color: var(--rating-bad); }
+.state__text { color: var(--text-muted); font-family: var(--font-sub); margin-bottom: 1.5rem; line-height: 1.5; }
+
+.state__spinner {
+  width: 45px;
+  height: 45px;
+  border: 4px solid var(--border-color);
+  border-top-color: var(--rating-bad);
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1.25rem;
+}
+
+.btn {
+  background-color: var(--rating-bad);
+  color: var(--text-main);
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-main);
+  transition: var(--transition);
+}
+.btn:hover { background-color: #e03b3b; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ==========================================================================
+   MODALE OVERLAY ET DIALOG (Niveau 3)
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 150;
+}
+.modal-overlay[hidden], .movie-modal[hidden] { 
+  display: none; 
+}
+
+.movie-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2rem;
+  z-index: 200;
+  overflow-y: auto;
+  color: var(--text-main);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.movie-modal__close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: var(--text-main);
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  z-index: 10;
+}
+.movie-modal__close:hover {
+  background-color: var(--rating-bad);
+  transform: rotate(90deg);
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  margin-top: auto;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (Media Queries)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .header__inner { padding: 1rem; gap: 1rem; }
+  .logo { font-size: 1.3rem; }
+  .movies-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1.5rem 1rem; }
+}
+
+@media (max-width: 576px) {
+  .header__inner { flex-direction: column; align-items: stretch; }
+  .logo, .nav-menu { text-align: center; margin: 0 auto; }
+  .search-bar { max-width: 100%; }
+}
